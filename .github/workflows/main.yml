@@ -1,4 +1,4 @@
-name: VampXDP RDP
+name: VampXD RDP
 
 on:
   workflow_dispatch:
@@ -46,13 +46,13 @@ jobs:
           $rawPassword += $charSet.Special | Get-Random -Count 4
           $password = -join ($rawPassword | Sort-Object { Get-Random })
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
-          New-LocalUser -Name "VampXDP" -Password $securePass -AccountNeverExpires
-          Add-LocalGroupMember -Group "Administrators" -Member "VampXDP"
-          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "VampXDP"
+          New-LocalUser -Name "VampXD" -Password $securePass -AccountNeverExpires
+          Add-LocalGroupMember -Group "Administrators" -Member "VampXD"
+          Add-LocalGroupMember -Group "Remote Desktop Users" -Member "VampXD"
           
-          echo "RDP_CREDS=User: VampXDP | Password: $password" >> $env:GITHUB_ENV
+          echo "RDP_CREDS=User: VampXD | Password: $password" >> $env:GITHUB_ENV
           
-          if (-not (Get-LocalUser -Name "VampXDP")) {
+          if (-not (Get-LocalUser -Name "VampXD")) {
               Write-Error "User creation failed"
               exit 1
           }
@@ -102,7 +102,7 @@ jobs:
         run: |
           Write-Host "`n=== RDP ACCESS ==="
           Write-Host "Address: $env:TAILSCALE_IP"
-          Write-Host "Username: VampXDP"
+          Write-Host "Username: VampXD"
           Write-Host "Password: $(echo $env:RDP_CREDS)"
           Write-Host "==================`n"
           
